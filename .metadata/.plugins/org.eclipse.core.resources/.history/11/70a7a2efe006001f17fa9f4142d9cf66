@@ -1,0 +1,57 @@
+package com.webapp.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.webapp.dto.RegistrationDto;
+import com.webapp.entity.Registration;
+import com.webapp.repository.RegistrationRepository;
+
+@RestController
+@RequestMapping("/api/registrations")
+public class RestRegistrationController {
+	
+	@Autowired
+	private RegistrationRepository registrationRepository;
+	
+	//Read
+	@GetMapping
+	public List<Registration> getAllRegistration(){
+		List<Registration> registration = registrationRepository.findAll();
+		return registration;
+	}
+	
+	//Delete 
+	@DeleteMapping("/{id}")
+	public void deleteRegistration(@PathVariable int id) {
+		registrationRepository.deleteById(id);	
+	}
+	
+	//Save
+	@PostMapping
+	public void saveRegistration(@RequestBody Registration reg) {
+		registrationRepository.save(reg);
+	}
+	
+	//Update
+	@PutMapping
+	public void updateRegistration(@RequestParam int id,@RequestBody RegistrationDto registrationDto) {
+		Registration registration = registrationRepository.findById(id).get();
+		registration.setFirstName(registrationDto.getFirstName());
+		registration.setLastName(registrationDto.getLastName());
+		registration.setEmail(registrationDto.getEmail());
+		registration.setMobile(registrationDto.getMobile());
+		registrationRepository.save(registration);
+	}
+
+}

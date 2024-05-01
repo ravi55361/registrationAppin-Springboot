@@ -1,0 +1,15 @@
+package com.webapp.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class RegistrationController {
+	
+	//Handler Method  http://localhost:8081/view-registration-page
+	@RequestMapping("/view-registration-page")
+	public String viewsRegistrationPage() {
+		return "new_registration";
+	}
+
+}
